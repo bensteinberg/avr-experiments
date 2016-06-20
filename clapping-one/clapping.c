@@ -18,15 +18,7 @@
 
 // this is the score
 #define PATTERN 0b111011010110
-#define BITS 12
-
-/* Function to left rotate n in width b by d bits
-   adapted from http://www.geeksforgeeks.org/rotate-bits-of-an-integer/ 
-*/
-int leftRotate(int n, int b, unsigned int d)
-{
-   return (n << d)|(n >> (b - d));
-}
+#define BITS 12  /* there's no fls in the AVR string.h! */
 
 int main(void) {
   // pin 5 is an input
@@ -41,6 +33,7 @@ int main(void) {
   PORTB = 0b00;
 
   int second = PATTERN;
+  int mask = (1 << BITS) - 1;
 
   for (int cycle = 0 ; cycle <= 12 ; cycle++) {
     for (int bars = 0 ; bars < BARS; bars++) {
@@ -55,7 +48,7 @@ int main(void) {
         }
       }
     }
-    second = leftRotate(second, BITS, 1);
+    second = ((second << 1)|(second >> (BITS - 1))) & mask;
   }
 }
 
