@@ -1,3 +1,6 @@
+# map files?
+*.map
+
 # Object files
 *.o
 *.ko
